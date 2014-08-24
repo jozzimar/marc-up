@@ -1,5 +1,5 @@
-#ifndef MARC-UP_GUI_RAIZ_HPP
-#define MARC-UP_GUI_RAIZ_HPP
+#ifndef MARC_UP_GUI_RAIZ_HPP
+#define MARC_UP_GUI_RAIZ_HPP
 
 #include <gtkmm/button.h>
 #include <gtkmm/frame.h>
