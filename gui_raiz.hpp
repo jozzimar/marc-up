@@ -21,7 +21,6 @@ protected:
 	Gtk::Box caja_usuarios;
 	Gtk::Box caja_passwords;
 	Gtk::Image logo;
-	Gtk::Label titulo_app;
 	Gtk::Label usuario_label;
 	Gtk::Entry usuario_entry;
 	Gtk::Label password_label;
