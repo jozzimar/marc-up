@@ -15,7 +15,6 @@ public:
 	virtual ~Gui_raiz ();
 
 protected:
-	
 	Gtk::Box caja_principal;
 	Gtk::Box caja_encabezado;
 	Gtk::Box caja_usuarios;

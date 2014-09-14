@@ -13,7 +13,7 @@ Gui_raiz::Gui_raiz ()
 	//inicialización del contenedor campo contraseña
 	this->caja_passwords.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_VERTICAL));
 	//inicialización de el image con el logo
-	this->logo.set("logo.png");
+	this->logo.set("images/logo.png");
 	
 	//inicialización de los campos usuario label y entry
 	this->usuario_label.set_text ("Usuario");
@@ -33,6 +33,7 @@ Gui_raiz::Gui_raiz ()
 	this->caja_encabezado.pack_start(logo);
 
 	//empaquetado de los campos usuario
+	this->caja_usuarios.set_spacing (0);
 	this->caja_usuarios.pack_start(this->usuario_label);
 	this->caja_usuarios.pack_start(this->usuario_entry);
 
