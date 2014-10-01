@@ -20,7 +20,7 @@ Gui_raiz::Gui_raiz ()
 	this->set_title ("Marc Up");
 	this->show_all ();
 	
-	//this->caja_login.hide();
+	//this->caja_add_clerk.hide();
 }
 
 Gui_raiz::~Gui_raiz ()
@@ -29,15 +29,18 @@ Gui_raiz::~Gui_raiz ()
 
 void Gui_raiz::set_login()
 {
-      //inicialización del contenedor principal
+	//inicialización del contenedor principal
 	this->caja_login.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_VERTICAL));
+	
 	//inicialización del contenedor del logo
 	this->caja_encabezado.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_HORIZONTAL));
+	
 	//inicialización del contenedor campo usuario
 	this->caja_usuarios.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_VERTICAL));
+	
 	//inicialización del contenedor campo contraseña
 	this->caja_passwords.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_VERTICAL));
-	//this->caja_button.set_orientation (Gtk::Orientation (Gtk::ORIENTATION_HORIZONTAL));
+	
 	//inicialización de el image con el logo
 	this->logo.set("images/logo.png");
 	
@@ -53,7 +56,6 @@ void Gui_raiz::set_login()
 	this->password_entry.set_text("");
 	this->password_entry.set_margin_bottom(25);
 	this->button_in.set_label ("Entrar");
-	
 	
 	//empaquetado del contenedor principal	
 	this->caja_login.pack_start(this->caja_encabezado);
@@ -100,20 +102,15 @@ void Gui_raiz::set_admin()
 	this->report.set_margin_bottom(15);
 	
 	//inicialización de los button e images
-
-	
 	this->button_add_clerk.set_label("ADD CLERK");
 	this->button_add_clerk.set_border_width(10);
-	
 	this->button_rid_clerk.set_label("RID CLERK");
 	this->button_rid_clerk.set_border_width(10);
 	
 	this->button_generate_report.set_label("GENERATE REPORT");
 	this->button_generate_report.set_border_width(10);
 	
-	
 	//empaquetado del contenedor principal	
-	
 	this->caja_admin.pack_start(this->caja_encabezado);
 	this->caja_admin.pack_start(this->caja_images);
 	this->caja_admin.pack_start(this->caja_button);
@@ -122,14 +119,12 @@ void Gui_raiz::set_admin()
 	this->caja_encabezado.pack_start(this->logo);
 
 	//empaquetado de los button
-	
 	this->caja_button.set_spacing (0);
 	this->caja_button.pack_start(this->button_add_clerk);
 	this->caja_button.pack_start(this->button_rid_clerk);
 	this->caja_button.pack_start(this->button_generate_report);
 	
 	//empaquetado de las imagenes
-	
 	this->caja_images.pack_start(this->add_clerk);
 	this->caja_images.pack_start(this->rid_clerk);
 	this->caja_images.pack_start(this->report);
@@ -145,12 +140,10 @@ void Gui_raiz::set_add_clerk()
 	this->caja_encabezado.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_HORIZONTAL));
 	
 	// inicializacion de contenedor columnas
-	this->caja_unit.set_orientation(Gtk::Orientation(Gtk::ORIENTATION_HORIZONTAL));
 	this->caja_blok1.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_VERTICAL));
 	this->caja_blok1.set_border_width(25);
 	this->caja_blok2.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_VERTICAL));
-	//this->caja_blok2.set_border_width(10);
-	
+	this->caja_blok2.set_border_width(25);
 	this->caja_buttons.set_orientation (Gtk::Orientation(Gtk::ORIENTATION_HORIZONTAL));
 	
 	//inicializacion de imagenes
@@ -158,87 +151,88 @@ void Gui_raiz::set_add_clerk()
 	this->logo.set_margin_bottom(25);
 	
 	//inicialización de los campos usuario label, entry y combo bloque 1
-	this->ltype_id.set_text ("Tipo de Identificacion");
-	this->ltype_id.set_margin_bottom(5);
-	this->ltype_id.set_alignment (Gtk::ALIGN_START);
+	this->label_type_id.set_text ("Tipo de Identificacion");
+	this->label_type_id.set_margin_bottom(5);
+	this->label_type_id.set_alignment (Gtk::ALIGN_START);
 	this->combo_type_id.set_text("");
 	this->combo_type_id.set_margin_bottom(25);
 	
-	this->lname.set_text("Nombres");
-	this->lname.set_margin_bottom(5);
-	this->lname.set_alignment (Gtk::ALIGN_START);
-	this->ename.set_text("");
-	this->ename.set_margin_bottom(25);
+	this->label_name.set_text("Nombres");
+	this->label_name.set_margin_bottom(5);
+	this->label_name.set_alignment (Gtk::ALIGN_START);
+	this->entry_name.set_text("");
+	this->entry_name.set_margin_bottom(25);
 	
-	this->leps.set_text("Eps");
-	this->leps.set_margin_bottom(5);
-	this->leps.set_alignment (Gtk::ALIGN_START);
-	this->eeps.set_text("");
-	this->eeps.set_margin_bottom(25);
+	this->label_eps.set_text("Eps");
+	this->label_eps.set_margin_bottom(5);
+	this->label_eps.set_alignment (Gtk::ALIGN_START);
+	this->entry_eps.set_text("");
+	this->entry_eps.set_margin_bottom(25);
 	
-	this->lrh.set_text("Rh");
-	this->lrh.set_margin_bottom(5);
-	this->lrh.set_alignment (Gtk::ALIGN_START);
-	this->erh.set_text("");
-	//this->erh.set_margin_bottom(25);
+	this->label_rh.set_text("Rh");
+	this->label_rh.set_alignment (Gtk::ALIGN_START);
+	this->entry_rh.set_text("");
+	this->entry_rh.set_margin_bottom(25);
 	
 	this->button_save.set_label ("Save");
 	this->button_save.set_border_width(25);
 	
 	//inicialización de los campos usuario label, entry y combo bloque 2
+	this->label_num_id.set_text("Numero de Identificacion");
+	this->label_num_id.set_margin_bottom(5);
+	this->label_num_id.set_alignment (Gtk::ALIGN_START);
+	this->entry_num_id.set_text("");
+	this->entry_num_id.set_margin_bottom(25);
 	
-	this->lnum_id.set_text("Numero de Identificacion");
-	this->lnum_id.set_alignment (Gtk::ALIGN_START);
-	this->enum_id.set_text("");
-	this->enum_id.set_margin_bottom(1);
+	this->label_surname.set_text("Apellidos");
+	this->label_surname.set_margin_bottom(5);
+	this->label_surname.set_alignment (Gtk::ALIGN_START);
+	this->entry_surname.set_text("");
+	this->entry_surname.set_margin_bottom(25);
 	
-	this->lsurname.set_text("Apellidos");
-	this->lsurname.set_alignment (Gtk::ALIGN_START);
-	this->esurname.set_text("");
-	this->esurname.set_margin_bottom(1);
-	
-	this->larl.set_text("Arl");
-	this->larl.set_alignment (Gtk::ALIGN_START);
-	this->earl.set_text("");
-	this->earl.set_margin_bottom(1);
+	this->label_arl.set_text("Arl");
+	this->label_arl.set_margin_bottom(5);
+	this->label_arl.set_alignment (Gtk::ALIGN_START);
+	this->entry_arl.set_text("");
+	this->entry_arl.set_margin_bottom(90);
 	
 	this->button_cancel.set_label ("Cancel");
 	this->button_cancel.set_border_width(25);
 	
 	// empaquetado en la caja principal
 	this->caja_add_clerk.pack_start(this->caja_encabezado);
-	this->caja_add_clerk.pack_start(this->caja_unit);
+	this->caja_add_clerk.pack_start(this->grid_unit);
 	this->caja_add_clerk.pack_start(this->caja_buttons);
 	
 	//empaquetado en la caja que une las columnas
-	this->caja_unit.pack_start(this->caja_blok1);
-	this->caja_unit.pack_end(this->caja_blok2);
+	this->grid_unit.add(this->caja_blok1);
+	this->grid_unit.add(this->caja_blok2);
 	
 	//empaquetado del encabezado
 	this->caja_encabezado.pack_start(this->logo);
 	
 	//empaquetado del bloque 1
-	this->caja_blok1.pack_start(this->ltype_id);
+	this->caja_blok1.pack_start(this->label_type_id);
 	this->caja_blok1.pack_start(this->combo_type_id);
 	
-	this->caja_blok1.pack_start(this->lname);
-	this->caja_blok1.pack_start(this->ename);
+	this->caja_blok1.pack_start(this->label_name);
+	this->caja_blok1.pack_start(this->entry_name);
 	
-	this->caja_blok1.pack_start(this->leps);
-	this->caja_blok1.pack_start(this->eeps);
+	this->caja_blok1.pack_start(this->label_eps);
+	this->caja_blok1.pack_start(this->entry_eps);
 	
-	this->caja_blok1.pack_start(this->lrh);
-	this->caja_blok1.pack_start(this->erh);
+	this->caja_blok1.pack_start(this->label_rh);
+	this->caja_blok1.pack_start(this->entry_rh);
 	
 	//empaquetado del bloque 2
-	this->caja_blok2.pack_start(this->lnum_id);
-	this->caja_blok2.pack_start(this->enum_id);
+	this->caja_blok2.pack_start(this->label_num_id);
+	this->caja_blok2.pack_start(this->entry_num_id);
 	
-	this->caja_blok2.pack_start(this->lsurname);
-	this->caja_blok2.pack_start(this->esurname);
+	this->caja_blok2.pack_start(this->label_surname);
+	this->caja_blok2.pack_start(this->entry_surname);
 	
-	this->caja_blok2.pack_start(this->larl);
-	this->caja_blok2.pack_start(this->earl);
+	this->caja_blok2.pack_start(this->label_arl);
+	this->caja_blok2.pack_start(this->entry_arl);
 	
 	// empaquetado de botones
 	this->caja_buttons.pack_start(this->button_save);
