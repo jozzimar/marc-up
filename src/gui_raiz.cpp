@@ -212,7 +212,7 @@ void Gui_raiz::set_add_clerk()
 	
 	//empaquetado en la caja que une las columnas
 	this->caja_unit.pack_start(this->caja_blok1);
-	this->caja_unit.pack_end(this->caja_blok2);
+	this->caja_unit.pack_start(this->caja_blok2);
 	
 	//empaquetado del encabezado
 	this->caja_encabezado.pack_start(this->logo);
