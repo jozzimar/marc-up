@@ -8,6 +8,7 @@
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>
 #include <gtkmm/combobox.h>
+#include <gtkmm/grid.h>
 
 
 class Gui_raiz : public Gtk::Window
@@ -41,12 +42,13 @@ protected:
 	Gtk::Button button_add_clerk, button_rid_clerk, button_generate_report;
 	Gtk::Image add_clerk, rid_clerk, report;
 	
-	//gui add_clerk
+	//gui agregar empleado
 	
-	Gtk::Box caja_add_clerk, caja_blok1, caja_blok2, caja_buttons, caja_unit;
+	Gtk::Box caja_add_clerk, caja_blok1, caja_blok2, caja_buttons;
+	Gtk::Grid grid_unit;
 	Gtk::Button button_cancel, button_save;
-	Gtk::Label ltype_id, lnum_id, lname, lsurname, leps, larl, lrh;
-	Gtk::Entry enum_id, ename, esurname, eeps, earl, erh;
+	Gtk::Label label_type_id, label_num_id, label_name, label_surname, label_eps, label_arl, label_rh;
+	Gtk::Entry entry_num_id, entry_name, entry_surname, entry_eps, entry_arl, entry_rh;
 	Gtk::Entry combo_type_id; 
 };
 
