@@ -26,33 +26,43 @@ public:
 	users (std::string, std::string, std::string, std::string, std::string, std::string, std::string, std::string, unsigned short, std::string);
 	~users ();
 	
+	void set_typeuser();
 	void set_typeuser (std::string);
 	std::string get_typeuser ();
 	
+	void set_passuser();
 	void set_passuser (std::string);
 	std::string get_passuser ();
 	
+	void set_id();
 	void set_id (std::string);
 	std::string get_id ();
 	
+	void set_num_id();
 	void set_num_id (std::string);
 	std::string get_num_id ();
 	
+	void set_name();
 	void set_name (std::string);
 	std::string get_name ();
 	
+	void set_surname();
 	void set_surname (std::string);
 	std::string get_surname ();
 	
+	void set_eps();
 	void set_eps (std::string);
 	std::string get_eps ();
 	
+	void set_arl();
 	void set_arl (std::string);
 	std::string get_arl ();
 	
+	void set_age();
 	void set_age (unsigned short);
 	unsigned short get_age ();
 	
+	void set_rh();
 	void set_rh (std::string);
 	std::string get_rh ();
 	
