@@ -7,7 +7,7 @@
 #include <gtkmm/image.h>
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>
-#include <gtkmm/combobox.h>
+#include <gtkmm/comboboxtext.h>
 #include <gtkmm/grid.h>
 
 
@@ -49,7 +49,7 @@ protected:
 	Gtk::Button button_cancel, button_save;
 	Gtk::Label label_type_id, label_num_id, label_name, label_surname, label_eps, label_arl, label_rh;
 	Gtk::Entry entry_num_id, entry_name, entry_surname, entry_eps, entry_arl, entry_rh;
-	Gtk::Entry combo_type_id; 
+	Gtk::ComboBoxText combo_type_id; 
 };
 
 #endif //MARC-UP_GUI_RAIZ_HPP

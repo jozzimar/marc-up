@@ -154,7 +154,10 @@ void Gui_raiz::set_add_clerk()
 	this->label_type_id.set_text ("Tipo de Identificacion");
 	this->label_type_id.set_margin_bottom(5);
 	this->label_type_id.set_alignment (Gtk::ALIGN_START);
-	this->combo_type_id.set_text("");
+	this->combo_type_id.append ("");
+	this->combo_type_id.append ("CC");
+	this->combo_type_id.append ("CE");
+	this->combo_type_id.append ("NUIP");
 	this->combo_type_id.set_margin_bottom(25);
 	
 	this->label_name.set_text("Nombres");
@@ -205,6 +208,7 @@ void Gui_raiz::set_add_clerk()
 	this->caja_add_clerk.pack_start(this->caja_buttons);
 	
 	//empaquetado en la caja que une las columnas
+
 	this->grid_unit.add(this->caja_blok1);
 	this->grid_unit.add(this->caja_blok2);
 	
