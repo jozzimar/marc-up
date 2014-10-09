@@ -8,6 +8,7 @@
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>
 #include <gtkmm/comboboxtext.h>
+#include <gtkmm/messagedialog.h>
 #include <gtkmm/grid.h>
 
 
@@ -20,6 +21,7 @@ public:
 	void set_login();
 	void set_admin();
 	void set_add_clerk();
+	void accion_guardar ();
 	
 protected:
 	//gui login
