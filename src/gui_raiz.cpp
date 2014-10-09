@@ -4,6 +4,8 @@
 Gui_raiz::Gui_raiz ()
   
 {
+
+	this->button_save.signal_clicked ().connect (sigc::mem_fun (*this, &Gui_raiz::accion_guardar) );
 	
 	/*this->set_login();
 	this->add(this->caja_login);*/
@@ -242,5 +244,28 @@ void Gui_raiz::set_add_clerk()
 	this->caja_buttons.pack_start(this->button_save);
 	this->caja_buttons.pack_end(this->button_cancel);
 	
+}
+
+void Gui_raiz::accion_guardar ()
+{
+	Gtk::MessageDialog dialog (*this, "Guardar", false, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_OK_CANCEL);
+	dialog.set_secondary_text ("¿Desea guardar los cambios?");
+	
+	int result = dialog.run ();
+	
+	switch (result)
+	{
+		case (Gtk::RESPONSE_OK):
+			std::cout << "Si" << std::endl;
+			break;		
+			
+		case (Gtk::RESPONSE_CANCEL):
+			std::cout << "No" << std::endl;
+			break;
+			
+		default:
+			std::cout << "Raro que pase esto" << std::endl;
+			break;
+	}
 }
 
