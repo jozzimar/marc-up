@@ -4,6 +4,8 @@
 Gui_raiz::Gui_raiz ()
   
 {
+
+	this->button_save.signal_clicked ().connect (sigc::mem_fun (*this, &Gui_raiz::dialog_save) );
 	
 	/*this->set_login();
 	this->add(this->caja_login);*/
@@ -245,30 +247,26 @@ void Gui_raiz::set_add_clerk()
 	
 }
 
-void Gui_raiz::set_dialog_save()
+void Gui_raiz::dialog_save ()
 {
-	this->messagedialog_save("DESEA ALMACENAR DATOS DEL EMPLEADO?", false /*use_markup*/, Gtk::MESSAGE_QUESTION,Gtk::BUTTONS_OK_CANCEL);
-	this->messagedialog_save.set_secondary_text("Si esta seguro de la información suministrada presione OK.");
+	Gtk::MessageDialog messagedialog_save(*this,"¿DESEA ALMACENAR LOS DATOS DEL EMPLEADO?", false, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_OK_CANCEL);
+	messagedialog_save.set_secondary_text ("Si los datos suministrados son correctos pulse Aceptar.");
 	
-	 int result_clicked = messagedialog.run();
-
-	switch(result_clicked){
-		case(Gtk::RESPONSE_OK):
-			{
-			std::cout << "OK clicked." << std::endl;
-      		break;
-		}
-    		case(Gtk::RESPONSE_CANCEL):
-			{
-			std::cout << "Cancel clicked." << std::endl;
-         	break;
-    		}
+	int result = messagedialog_save.run ();
+	
+	switch (result)
+	{
+		case (Gtk::RESPONSE_OK):
+			std::cout << "Aceptar" << std::endl;
+			break;		
+			
+		case (Gtk::RESPONSE_CANCEL):
+			std::cout << "Cancelar" << std::endl;
+			break;
+			
 		default:
-    			{
-      			std::cout << "Unexpected button clicked." << std::endl;
-      		break;
-    		}
+			std::cout << "Nunca Pasa" << std::endl;
+			break;
 	}
 }
-
 
