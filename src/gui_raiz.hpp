@@ -9,6 +9,7 @@
 #include <gtkmm/button.h>
 #include <gtkmm/comboboxtext.h>
 #include <gtkmm/grid.h>
+#include <gtkmm/messagedialog.h>
 
 
 class Gui_raiz : public Gtk::Window
@@ -20,6 +21,7 @@ public:
 	void set_login();
 	void set_admin();
 	void set_add_clerk();
+	void set_dialog_save();
 	
 protected:
 	//gui login
@@ -50,6 +52,7 @@ protected:
 	Gtk::Label label_type_id, label_num_id, label_name, label_surname, label_eps, label_arl, label_rh;
 	Gtk::Entry entry_num_id, entry_name, entry_surname, entry_eps, entry_arl, entry_rh;
 	Gtk::ComboBoxText combo_type_id; 
+	Gtk::MessageDialog messagedialog_save;
 };
 
 #endif //MARC-UP_GUI_RAIZ_HPP
