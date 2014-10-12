@@ -23,7 +23,8 @@ public:
 	void set_admin();
 	void set_add_clerk();
 	void dialog_save();
-
+	void set_rid_clerk();
+	void dialog_delete();
 protected:
 	//gui login
   
@@ -50,9 +51,15 @@ protected:
 	Gtk::Box caja_add_clerk, caja_blok1, caja_blok2, caja_buttons;
 	Gtk::Grid grid_unit;
 	Gtk::Button button_cancel, button_save;
-	Gtk::Label label_type_id, label_num_id, label_name, label_surname, label_eps, label_arl, label_rh;
-	Gtk::Entry entry_num_id, entry_name, entry_surname, entry_eps, entry_arl, entry_rh;
-	Gtk::ComboBoxText combo_type_id; 
+	Gtk::Label label_type_id, label_num_id, label_name, label_surname, label_eps, label_arl, label_appointment, label_area;
+	Gtk::Entry entry_num_id, entry_name, entry_surname, entry_eps, entry_arl; 
+	Gtk::ComboBoxText combo_type_id, combo_appointment, combo_area; 
+
+	//gui eliminar empleado
+
+	Gtk::Box caja_rid_clerk;
+	Gtk::Button button_delete;	
+	
 };
 
 #endif //MARC-UP_GUI_RAIZ_HPP

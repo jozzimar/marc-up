@@ -6,6 +6,7 @@ Gui_raiz::Gui_raiz ()
 {
 
 	this->button_save.signal_clicked ().connect (sigc::mem_fun (*this, &Gui_raiz::dialog_save) );
+	this->button_delete.signal_clicked ().connect (sigc::mem_fun (*this, &Gui_raiz::dialog_delete) );
 	
 	/*this->set_login();
 	this->add(this->caja_login);*/
@@ -13,8 +14,11 @@ Gui_raiz::Gui_raiz ()
 	/*this->set_admin();
 	this->add(this->caja_admin);*/
 	
-	this->set_add_clerk();
-	this->add(this->caja_add_clerk);
+	/*this->set_add_clerk();
+	this->add(this->caja_add_clerk);*/
+
+	this->set_rid_clerk();
+	this->add(this->caja_rid_clerk);
 	
 	this->set_resizable(false);
 	this->set_position (Gtk::WIN_POS_CENTER);
@@ -175,10 +179,14 @@ void Gui_raiz::set_add_clerk()
 	this->entry_eps.set_text("");
 	this->entry_eps.set_margin_bottom(25);
 	
-	this->label_rh.set_text("Rh");
-	this->label_rh.set_alignment (Gtk::ALIGN_START);
-	this->entry_rh.set_text("");
-	this->entry_rh.set_margin_bottom(25);
+	this->label_appointment.set_text("Cargo");
+	this->label_appointment.set_alignment (Gtk::ALIGN_START);
+	this->combo_appointment.append("");
+	this->combo_appointment.append("Aprendiz SENA");	
+	this->combo_appointment.append("Asistente Técnico");
+	this->combo_appointment.append("Auxiliar Técnico");
+	this->combo_appointment.append("Jefe de Grupo");
+	this->combo_appointment.set_margin_bottom(25);
 	
 	this->button_save.set_label ("Save");
 	this->button_save.set_border_width(25);
@@ -200,11 +208,20 @@ void Gui_raiz::set_add_clerk()
 	this->label_arl.set_margin_bottom(5);
 	this->label_arl.set_alignment (Gtk::ALIGN_START);
 	this->entry_arl.set_text("");
-	this->entry_arl.set_margin_bottom(90);
-	
+	this->entry_arl.set_margin_bottom(25);
+
+	this->label_area.set_text("Area");
+	this->label_appointment.set_alignment (Gtk::ALIGN_START);
+	this->combo_area.append("");
+	this->combo_area.append("P.E. Aguachica");	
+	this->combo_area.append("P.E. Bosconia");
+	this->combo_area.append("P.E. Curumaní");
+	this->combo_area.append("P.E. Valledupar");
+	this->combo_area.set_margin_bottom(25);
+
 	this->button_cancel.set_label ("Cancel");
 	this->button_cancel.set_border_width(25);
-	
+
 	// empaquetado en la caja principal
 	this->caja_add_clerk.pack_start(this->caja_encabezado);
 	this->caja_add_clerk.pack_start(this->grid_unit);
@@ -228,8 +245,8 @@ void Gui_raiz::set_add_clerk()
 	this->caja_blok1.pack_start(this->label_eps);
 	this->caja_blok1.pack_start(this->entry_eps);
 	
-	this->caja_blok1.pack_start(this->label_rh);
-	this->caja_blok1.pack_start(this->entry_rh);
+	this->caja_blok1.pack_start(this->label_appointment);
+	this->caja_blok1.pack_start(this->combo_appointment);
 	
 	//empaquetado del bloque 2
 	this->caja_blok2.pack_start(this->label_num_id);
@@ -240,6 +257,9 @@ void Gui_raiz::set_add_clerk()
 	
 	this->caja_blok2.pack_start(this->label_arl);
 	this->caja_blok2.pack_start(this->entry_arl);
+
+	this->caja_blok2.pack_start(this->label_area);
+	this->caja_blok2.pack_start(this->combo_area);
 	
 	// empaquetado de botones
 	this->caja_buttons.pack_start(this->button_save);
@@ -270,3 +290,93 @@ void Gui_raiz::dialog_save ()
 	}
 }
 
+void Gui_raiz::set_rid_clerk ()
+{
+	//contenedor principal
+	this->caja_rid_clerk.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_VERTICAL));
+	
+	//inicialización del contenedor del logo
+	this->caja_encabezado.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_HORIZONTAL));	
+	
+	this->caja_blok1.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_VERTICAL));
+	this->caja_blok1.set_border_width(25);
+	this->caja_blok2.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_VERTICAL));
+	this->caja_blok2.set_border_width(25);
+	
+	//inicialización del contendor de botones
+	this->caja_buttons.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_HORIZONTAL));
+	
+	//inicializacion de imagenes
+	this->logo.set("images/logo.png");
+	this->logo.set_margin_bottom(25);
+	
+	//inicialización de los campos usuario label, entry...
+	this->label_type_id.set_text ("Tipo de Identificacion");
+	this->label_type_id.set_margin_bottom(5);
+	this->label_type_id.set_alignment (Gtk::ALIGN_START);
+	this->combo_type_id.append ("");
+	this->combo_type_id.append ("RC");	
+	this->combo_type_id.append ("CC");
+	this->combo_type_id.append ("CE");
+	this->combo_type_id.append ("NUIP");
+	this->combo_type_id.set_margin_bottom(25);
+	
+	this->button_delete.set_label ("Eliminar");
+	this->button_delete.set_border_width(25);
+	
+	//inicialización de los campos usuario label, entry...
+	this->label_num_id.set_text("Numero de Identificacion");
+	this->label_num_id.set_margin_bottom(5);
+	this->label_num_id.set_alignment (Gtk::ALIGN_START);
+	this->entry_num_id.set_text("");
+	this->entry_num_id.set_margin_bottom(25);
+
+	this->button_cancel.set_label ("Cancelar");
+	this->button_cancel.set_border_width(25);	
+	
+	// empaquetado en la caja principal
+	this->caja_rid_clerk.pack_start(this->caja_encabezado);
+	this->caja_rid_clerk.pack_start(this->grid_unit);
+	this->caja_rid_clerk.pack_start(this->caja_buttons);
+
+	//empaquetado en la caja que une las columnas
+	this->grid_unit.add(this->caja_blok1);
+	this->grid_unit.add(this->caja_blok2);
+
+	//empaquetado del encabezado
+	this->caja_encabezado.pack_start(this->logo);
+
+	// empaquetado de datos del empleado
+	this->caja_blok1.pack_start(this->label_type_id);
+	this->caja_blok1.pack_start(this->combo_type_id);
+
+	this->caja_blok2.pack_start(this->label_num_id);
+	this->caja_blok2.pack_start(this->entry_num_id);
+
+	// empaquetado de botones
+	this->caja_buttons.pack_start(this->button_delete);
+	this->caja_buttons.pack_start(this->button_cancel);
+}
+
+void Gui_raiz::dialog_delete ()
+{
+	Gtk::MessageDialog messagedialog_delete(*this,"¿CONFIRMA QUE DESEA ELIMINAR AL EMPLEADO?", false, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_OK_CANCEL);
+	messagedialog_delete.set_secondary_text ("Si los datos son correctos pulse Aceptar.");
+	
+	int result = messagedialog_delete.run ();
+	
+	switch (result)
+	{
+		case (Gtk::RESPONSE_OK):
+			std::cout << "Aceptar" << std::endl;
+			break;		
+			
+		case (Gtk::RESPONSE_CANCEL):
+			std::cout << "Cancelar" << std::endl;
+			break;
+			
+		default:
+			std::cout << "Nunca Pasa" << std::endl;
+			break;
+	}
+}
