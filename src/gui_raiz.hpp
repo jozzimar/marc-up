@@ -10,7 +10,6 @@
 #include <gtkmm/comboboxtext.h>
 #include <gtkmm/messagedialog.h>
 #include <gtkmm/grid.h>
-#include <gtkmm/messagedialog.h>
 
 
 class Gui_raiz : public Gtk::Window
@@ -25,6 +24,9 @@ public:
 	void dialog_save();
 	void set_rid_clerk();
 	void dialog_delete();
+	void set_report();
+	void on_combo_clerk();
+	
 protected:
 	//gui login
   
@@ -60,6 +62,12 @@ protected:
 	Gtk::Box caja_rid_clerk;
 	Gtk::Button button_delete;	
 	
+	//gui informes
+
+	Gtk::Box caja_report, caja_type_report;
+	Gtk::Button button_generate;
+	Gtk::Label label_type_report;
+	Gtk::ComboBoxText combo_type_report;	
 };
 
 #endif //MARC-UP_GUI_RAIZ_HPP
