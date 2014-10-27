@@ -1,7 +1,6 @@
 #ifndef MARC_UP_MARCACION_HPP
 #define MARC_UP_MARCACION_HPP
 
-#include <gtkmm/label.h>
 #include <gtkmm/entry.h>
 #include <gtkmm/window.h>
 #include <gtkmm/image.h>
@@ -16,11 +15,10 @@ class Marcacion : public Gtk::Window
 {
 public:
 	Marcacion ();
-	virtual ~Marcacion ();
+	~Marcacion ();
 private:
   
-  	virtual bool on_key_press_event(GdkEventKey* event);
-  	//bool entryKeypress(GdkEventKey* event);
+  	bool entrar (GdkEventKey* event);
   	
   	void set_mark_clerk();
 	
