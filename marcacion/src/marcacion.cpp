@@ -4,9 +4,9 @@
 Marcacion::Marcacion ()
   
 {
-	add_events(Gdk::KEY_PRESS_MASK);
+	//add_events(Gdk::KEY_PRESS_MASK);
 
-  	entry_id_clerk.signal_key_press_event().connect(sigc::mem_fun(*this, &Marcacion::on_key_press_event));
+  	//entry_id_clerk.signal_key_press_event().connect(sigc::mem_fun(*this, &Marcacion::on_key_press_event));
 
   	
 	this->set_mark_clerk();
@@ -46,6 +46,7 @@ void Marcacion::set_mark_clerk()
 	this->combo_type_marker.append ("SALIDA");
 	this->combo_type_marker.set_margin_bottom(25);
 	
+	this->entry_id_clerk.set_visibility (false);
 	this->label_id_clerk.set_text("Numero de Identificacion");
 	this->label_id_clerk.set_margin_bottom(5);
 	this->label_id_clerk.set_alignment (Gtk::ALIGN_START);
@@ -76,7 +77,7 @@ void Marcacion::set_mark_clerk()
 	this->caja_type_and_users.pack_start(this->entry_code_clerk);*/
 }
 
-bool Marcacion::on_key_press_event(GdkEventKey* event)
+/*bool Marcacion::on_key_press_event(GdkEventKey* event)
 {
   	//GDK_MOD1_MASK -> the 'alt' key(mask)
   	//GDK_KEY_1 -> the '1' key
@@ -95,4 +96,4 @@ bool Marcacion::on_key_press_event(GdkEventKey* event)
 		this->entry_id_clerk.set_text("");
     		return true;
   	}
-}
+}*/

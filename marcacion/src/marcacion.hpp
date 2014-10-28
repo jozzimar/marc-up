@@ -19,7 +19,7 @@ public:
 	virtual ~Marcacion ();
 private:
   
-  	virtual bool on_key_press_event(GdkEventKey* event);
+  	//virtual bool on_key_press_event(GdkEventKey* event);
   	//bool entryKeypress(GdkEventKey* event);
   	
   	void set_mark_clerk();
