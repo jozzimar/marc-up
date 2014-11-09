@@ -1,27 +1,23 @@
 #ifndef MARC_UP_MARCACION_HPP
 #define MARC_UP_MARCACION_HPP
 
-#include <gtkmm/label.h>
 #include <gtkmm/entry.h>
 #include <gtkmm/window.h>
 #include <gtkmm/image.h>
 #include <gtkmm/box.h>
-#include <gtkmm/button.h>
 #include <gtkmm/comboboxtext.h>
-#include <gtkmm/messagedialog.h>
-#include <gtkmm/grid.h>
+#include <gtkmm/label.h>
 
 
 class Marcacion : public Gtk::Window
 {
 public:
 	Marcacion ();
-	virtual ~Marcacion ();
+	~Marcacion ();
 private:
   
-  	//virtual bool on_key_press_event(GdkEventKey* event);
-  	//bool entryKeypress(GdkEventKey* event);
-  	
+
+  	bool key_enter (GdkEventKey* event);
   	void set_mark_clerk();
 	
 		
@@ -35,10 +31,8 @@ protected:
 	Gtk::ComboBoxText combo_type_marker;
 	Gtk::Label label_id_clerk;
 	Gtk::Entry entry_id_clerk;
-	Gtk::Label label_code_clerk;
-	Gtk::Entry entry_code_clerk;
-	Gtk::Button button_register;
 	
+	int press;
 };
 
 #endif //MARC-UP_MARCACION_HPP

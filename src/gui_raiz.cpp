@@ -15,14 +15,14 @@ Gui_raiz::Gui_raiz ()
 	/*this->set_admin();
 	this->add(this->caja_admin);*/
 	
-	/*this->set_add_clerk();
-	this->add(this->caja_add_clerk);*/
+	this->set_add_clerk();
+	this->add(this->caja_add_clerk);
 
 	/*this->set_rid_clerk();
 	this->add(this->caja_rid_clerk);*/
 
-	this->set_report();
-	this->add(this->caja_report);
+	/*this->set_report();
+	this->add(this->caja_report);*/
 	
 	this->set_resizable(false);
 	this->set_position (Gtk::WIN_POS_CENTER);
@@ -112,12 +112,12 @@ void Gui_raiz::set_admin()
 	this->report.set_margin_bottom(15);
 	
 	//inicialización de los button e images
-	this->button_add_clerk.set_label("ADD CLERK");
+	this->button_add_clerk.set_label("CREAR/ACTUALIZAR");
 	this->button_add_clerk.set_border_width(10);
-	this->button_rid_clerk.set_label("RID CLERK");
+	this->button_rid_clerk.set_label("ELIMINAR");
 	this->button_rid_clerk.set_border_width(10);
 	
-	this->button_generate_report.set_label("GENERATE REPORT");
+	this->button_generate_report.set_label("GENERAR REPORTE");
 	this->button_generate_report.set_border_width(10);
 	
 	//empaquetado del contenedor principal	
@@ -215,9 +215,12 @@ void Gui_raiz::set_add_clerk()
 	this->entry_arl.set_margin_bottom(25);
 
 	this->label_area.set_text("Area");
-	this->label_appointment.set_alignment (Gtk::ALIGN_START);
+	//this->label_area.set_margin_bottom(5);
+	this->label_area.set_alignment (Gtk::ALIGN_START);
+	this->combo_area.set_margin_bottom(25);
 	this->combo_area.append("");
 	this->combo_area.append("P.E. Aguachica");	
+	
 	
 	this->button_cancel.set_label ("Cancel");
 	this->button_cancel.set_border_width(25);
@@ -228,7 +231,6 @@ void Gui_raiz::set_add_clerk()
 	this->caja_add_clerk.pack_start(this->caja_buttons);
 	
 	//empaquetado en la caja que une las columnas
-
 	this->grid_unit.add(this->caja_blok1);
 	this->grid_unit.add(this->caja_blok2);
 	
@@ -334,7 +336,6 @@ void Gui_raiz::set_report ()
 	this->caja_report.pack_start(this->caja_encabezado);
 	this->caja_report.pack_start(this->caja_type_report);
 	this->caja_report.pack_start(this->caja_buttons);
-
 	
 	//empaquetado del encabezado
 	this->caja_encabezado.pack_start(this->logo);

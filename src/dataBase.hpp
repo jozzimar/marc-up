@@ -9,13 +9,13 @@
 #define INCLUDE_DATABASE_HPP
 
 
-void new_regist ();
-void remove_regist ();
-void edit_regist ();
-void search_regist ();
-void print_regist ();
-void load_dates ();
-void save_dates ();
-int verify_document (std::string);
+void nuevo_registro ();
+void eliminar_registro ();
+void actualizar_registro ();
+void buscar_registro ();
+void imprimir_registros ();
+void cargar_datos ();
+void guardar_datos ();
+int verificar_cedula (std::string);
 
 #endif
