@@ -1,6 +1,7 @@
 #include "gui_raiz.hpp"
 #include <iostream>
 
+
 Gui_raiz::Gui_raiz ()
   
 {
@@ -9,6 +10,7 @@ Gui_raiz::Gui_raiz ()
 	this->button_delete.signal_clicked ().connect (sigc::mem_fun (*this, &Gui_raiz::dialog_delete) );
 	this->combo_type_report.signal_changed().connect( sigc::mem_fun(*this,&Gui_raiz::on_combo_clerk) );
 	
+	this->session.open("sqlite3:db=db.sqlite");
 	/*this->set_login();
 	this->add(this->caja_login);*/
 	
@@ -214,12 +216,13 @@ void Gui_raiz::set_add_clerk()
 	this->entry_arl.set_text("");
 	this->entry_arl.set_margin_bottom(25);
 
-	this->label_area.set_text("Area");
+	this->label_area.set_text("Contraseña");
 	//this->label_area.set_margin_bottom(5);
 	this->label_area.set_alignment (Gtk::ALIGN_START);
-	this->combo_area.set_margin_bottom(25);
-	this->combo_area.append("");
-	this->combo_area.append("P.E. Aguachica");	
+	this->entry_contra.set_margin_bottom(25);
+	this->entry_contra.set_visibility (false);
+	this->entry_contra.set_text("");
+	this->entry_contra.set_margin_bottom(25);	
 	
 	
 	this->button_cancel.set_label ("Cancel");
@@ -261,7 +264,7 @@ void Gui_raiz::set_add_clerk()
 	this->caja_blok2.pack_start(this->entry_arl);
 
 	this->caja_blok2.pack_start(this->label_area);
-	this->caja_blok2.pack_start(this->combo_area);
+	this->caja_blok2.pack_start(this->entry_contra);
 	
 	// empaquetado de botones
 	this->caja_buttons.pack_start(this->button_save);
@@ -275,11 +278,16 @@ void Gui_raiz::dialog_save ()
 	messagedialog_save.set_secondary_text ("Si los datos suministrados son correctos pulse Aceptar.");
 	
 	int result = messagedialog_save.run ();
-	
+	cppdb::statement sentencia;
+	std::string contrasenia;
+	std::string username;
 	switch (result)
 	{
 		case (Gtk::RESPONSE_OK):
 			std::cout << "Aceptar" << std::endl;
+			username = this->combo_type_id.get_active_text()+"_"+this->entry_num_id.get_text();
+			contrasenia = this->entry_contra.get_text();
+			sentencia = this->session << "INSERT INTO usuario (username,password) VALUES(?, ?)" << username  << contrasenia << cppdb::exec;
 			break;		
 			
 		case (Gtk::RESPONSE_CANCEL):

@@ -10,6 +10,7 @@
 #include <gtkmm/comboboxtext.h>
 #include <gtkmm/messagedialog.h>
 #include <gtkmm/grid.h>
+#include <cppdb/frontend.h>
 
 
 class Gui_raiz : public Gtk::Window
@@ -26,6 +27,9 @@ public:
 	void dialog_delete();
 	void set_report();
 	void on_combo_clerk();
+	
+	void guardar_usuario();
+	void eliminar_usuario();
 	
 protected:
 	//gui login
@@ -54,8 +58,8 @@ protected:
 	Gtk::Grid grid_unit;
 	Gtk::Button button_cancel, button_save;
 	Gtk::Label label_type_id, label_num_id, label_name, label_surname, label_eps, label_arl, label_appointment, label_area;
-	Gtk::Entry entry_num_id, entry_name, entry_surname, entry_eps, entry_arl; 
-	Gtk::ComboBoxText combo_type_id, combo_appointment, combo_area; 
+	Gtk::Entry entry_num_id, entry_name, entry_surname, entry_eps, entry_arl,entry_contra; 
+	Gtk::ComboBoxText combo_type_id, combo_appointment; 
 
 	//gui eliminar empleado
 
@@ -68,6 +72,9 @@ protected:
 	Gtk::Button button_generate;
 	Gtk::Label label_type_report;
 	Gtk::ComboBoxText combo_type_report;	
+	
+	cppdb::session session;
+	
 };
 
 #endif //MARC-UP_GUI_RAIZ_HPP
