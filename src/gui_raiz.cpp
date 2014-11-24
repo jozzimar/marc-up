@@ -279,16 +279,43 @@ void Gui_raiz::dialog_save ()
 	
 	int result = messagedialog_save.run ();
 	cppdb::statement sentencia;
+	
 	std::string contrasenia;
 	std::string username;
+	
+	std::string type_id;
+	std::string number_id;
+	std::string name;
+	std::string surname;
+	
+	std::string eps;
+	std::string arl;
+	std::string cargo;
+	std::string area;
+	
 	switch (result)
 	{
 		case (Gtk::RESPONSE_OK):
 			std::cout << "Aceptar" << std::endl;
-			username = this->combo_type_id.get_active_text()+"_"+this->entry_num_id.get_text();
-			contrasenia = this->entry_contra.get_text();
+			
+			username = this->combo_type_id.get_active_text ()+"_"+this->entry_num_id.get_text ();
+			contrasenia = this->entry_contra.get_text ();
+			
+			type_id = this->combo_type_id.get_active_text ();
+			number_id  = this->entry_num_id.get_text ();
+			name = this->entry_name.get_text ();
+			surname = this->entry_surname.get_text ();
+			
+			eps = this->entry_eps.get_text ();
+			arl = this->entry_arl.get_text ();
+			cargo = this->combo_appointment.get_active_text ();
+			area = "Aguachica";
+			
 			sentencia = this->session << "INSERT INTO usuario (username,password) VALUES(?, ?)" << username  << contrasenia << cppdb::exec;
-			break;		
+			sentencia = this->session << "INSERT INTO basicdata (usuario_id, type_id, number_id, name, surname) VALUES (last_insert_rowid (), ?, ?, ?, ?)" << type_id << number_id << name << surname << cppdb::exec;
+			sentencia = this->session << "INSERT INTO complementarydata (usuario_id, eps, arl, cargo, area) VALUES (last_insert_rowid (), ?, ?, ?, ?)" << eps << arl << cargo << area << cppdb::exec;
+			
+			break;
 			
 		case (Gtk::RESPONSE_CANCEL):
 			std::cout << "Cancelar" << std::endl;
