@@ -22,9 +22,12 @@ public:
 	void set_login();
 	void set_admin();
 	void set_add_clerk();
-	void dialog_save();
+	void layout_login ();
+	void layout_add_clerk ();
+	void save_add_clerk();
+	void cancel_add_clerk ();
+	void delete_clerk();
 	void set_rid_clerk();
-	void dialog_delete();
 	void set_report();
 	void on_combo_clerk();
 	
@@ -35,11 +38,11 @@ protected:
 	//gui login
   
 	Gtk::Box caja_login;
-	Gtk::Box caja_encabezado;
+	Gtk::Box caja_encabezado_login;
 	Gtk::Box caja_usuarios;
 	Gtk::Box caja_passwords;
-	Gtk::Box caja_button;
-	Gtk::Image logo;
+	Gtk::Box caja_button_login;
+	Gtk::Image logo_login;
 	Gtk::Label usuario_label;
 	Gtk::Entry usuario_entry;
 	Gtk::Label password_label;
@@ -47,29 +50,32 @@ protected:
 	Gtk::Button button_in;
 	
 	//gui admin
-	
-	Gtk::Box caja_images, caja_admin;
+	Gtk::Image logo_admin;
+	Gtk::Box caja_images, caja_admin, caja_encabezado_admin, caja_button_admin;
 	Gtk::Button button_add_clerk, button_rid_clerk, button_generate_report;
 	Gtk::Image add_clerk, rid_clerk, report;
 	
 	//gui agregar empleado
 	
-	Gtk::Box caja_add_clerk, caja_blok1, caja_blok2, caja_buttons;
+	Gtk::Image logo_add_clerk;
+	Gtk::Box caja_add_clerk, caja_blok1, caja_blok2, caja_buttons, caja_encabezado_add_clerk;
 	Gtk::Grid grid_unit;
-	Gtk::Button button_cancel, button_save;
+	Gtk::Button button_cancel_add_clerk, button_save_add_clerk;
 	Gtk::Label label_type_id, label_num_id, label_name, label_surname, label_eps, label_arl, label_appointment, label_area;
 	Gtk::Entry entry_num_id, entry_name, entry_surname, entry_eps, entry_arl,entry_contra; 
 	Gtk::ComboBoxText combo_type_id, combo_appointment; 
 
 	//gui eliminar empleado
-
-	Gtk::Box caja_rid_clerk;
-	Gtk::Button button_delete;	
+	
+	Gtk::Image logo_rid_clerk;
+	Gtk::Box caja_rid_clerk, caja_encabezado_rid_clerk;
+	Gtk::Button button_delete_clerk, button_cancel_rid_clerk;	
 	
 	//gui informes
 
-	Gtk::Box caja_report, caja_type_report;
-	Gtk::Button button_generate;
+	Gtk::Image logo_report;
+	Gtk::Box caja_report, caja_type_report, caja_encabezado_report;
+	Gtk::Button button_generate, button_cancel_report;
 	Gtk::Label label_type_report;
 	Gtk::ComboBoxText combo_type_report;	
 	
