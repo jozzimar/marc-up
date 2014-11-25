@@ -21,11 +21,11 @@ public:
 	std::string eps;
 	std::string arl;
 	std::string cargo;
-	std::string area;
+	std::string contra;
 		
 	users ();
 	
-	users (std::int, std::string, std::string, std::string, std::string, std::string, std::string, std::string, std::string, std::string, std::string);
+	users (unsigned int, std::string, std::string, std::string, std::string, std::string, std::string, std::string, std::string, std::string, std::string);
 	
 	~users ();
 	

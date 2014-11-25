@@ -12,7 +12,12 @@ Gui_raiz::Gui_raiz ()
 	this->button_save_add_clerk.signal_clicked ().connect (sigc::mem_fun (*this, &Gui_raiz::save_add_clerk) );
 	this->button_cancel_add_clerk.signal_clicked ().connect (sigc::mem_fun (*this, &Gui_raiz::cancel_add_clerk) );
 	
+	this->button_rid_clerk.signal_clicked ().connect (sigc::mem_fun (*this, &Gui_raiz::layout_rid_clerk) );
 	this->button_delete_clerk.signal_clicked ().connect (sigc::mem_fun (*this, &Gui_raiz::delete_clerk) );
+	this->button_cancel_rid_clerk.signal_clicked ().connect (sigc::mem_fun (*this, &Gui_raiz::cancel_rid_clerk) );
+	
+	this->button_generate_report.signal_clicked ().connect (sigc::mem_fun (*this, &Gui_raiz::layout_report) );
+	this->button_cancel_report.signal_clicked ().connect (sigc::mem_fun (*this, &Gui_raiz::cancel_report) );
 	this->combo_type_report.signal_changed().connect( sigc::mem_fun(*this,&Gui_raiz::on_combo_clerk) );
 	
 	this->session.open("sqlite3:db=db.sqlite");
@@ -156,11 +161,11 @@ void Gui_raiz::set_add_clerk()
 	this->caja_encabezado_add_clerk.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_HORIZONTAL));
 	
 	// inicializacion de contenedor columnas
-	this->caja_blok1.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_VERTICAL));
-	this->caja_blok1.set_border_width(25);
-	this->caja_blok2.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_VERTICAL));
-	this->caja_blok2.set_border_width(25);
-	this->caja_buttons.set_orientation (Gtk::Orientation(Gtk::ORIENTATION_HORIZONTAL));
+	this->caja_blok1_add_clerk.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_VERTICAL));
+	this->caja_blok1_add_clerk.set_border_width(25);
+	this->caja_blok2_add_clerk.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_VERTICAL));
+	this->caja_blok2_add_clerk.set_border_width(25);
+	this->caja_buttons_add_clerk.set_orientation (Gtk::Orientation(Gtk::ORIENTATION_HORIZONTAL));
 	
 	//inicializacion de imagenes
 	this->logo_add_clerk.set("images/logo.png");
@@ -234,45 +239,45 @@ void Gui_raiz::set_add_clerk()
 
 	// empaquetado en la caja principal
 	this->caja_add_clerk.pack_start(this->caja_encabezado_add_clerk);
-	this->caja_add_clerk.pack_start(this->grid_unit);
-	this->caja_add_clerk.pack_start(this->caja_buttons);
+	this->caja_add_clerk.pack_start(this->grid_unit_add_clerk);
+	this->caja_add_clerk.pack_start(this->caja_buttons_add_clerk);
 	
 	//empaquetado en la caja que une las columnas
-	this->grid_unit.add(this->caja_blok1);
-	this->grid_unit.add(this->caja_blok2);
+	this->grid_unit_add_clerk.add(this->caja_blok1_add_clerk);
+	this->grid_unit_add_clerk.add(this->caja_blok2_add_clerk);
 	
 	//empaquetado del encabezado
 	this->caja_encabezado_add_clerk.pack_start(this->logo_add_clerk);
 	
 	//empaquetado del bloque 1
-	this->caja_blok1.pack_start(this->label_type_id);
-	this->caja_blok1.pack_start(this->combo_type_id);
+	this->caja_blok1_add_clerk.pack_start(this->label_type_id);
+	this->caja_blok1_add_clerk.pack_start(this->combo_type_id);
 	
-	this->caja_blok1.pack_start(this->label_name);
-	this->caja_blok1.pack_start(this->entry_name);
+	this->caja_blok1_add_clerk.pack_start(this->label_name);
+	this->caja_blok1_add_clerk.pack_start(this->entry_name);
 	
-	this->caja_blok1.pack_start(this->label_eps);
-	this->caja_blok1.pack_start(this->entry_eps);
+	this->caja_blok1_add_clerk.pack_start(this->label_eps);
+	this->caja_blok1_add_clerk.pack_start(this->entry_eps);
 	
-	this->caja_blok1.pack_start(this->label_appointment);
-	this->caja_blok1.pack_start(this->combo_appointment);
+	this->caja_blok1_add_clerk.pack_start(this->label_appointment);
+	this->caja_blok1_add_clerk.pack_start(this->combo_appointment);
 	
 	//empaquetado del bloque 2
-	this->caja_blok2.pack_start(this->label_num_id);
-	this->caja_blok2.pack_start(this->entry_num_id);
+	this->caja_blok2_add_clerk.pack_start(this->label_num_id);
+	this->caja_blok2_add_clerk.pack_start(this->entry_num_id);
 	
-	this->caja_blok2.pack_start(this->label_surname);
-	this->caja_blok2.pack_start(this->entry_surname);
+	this->caja_blok2_add_clerk.pack_start(this->label_surname);
+	this->caja_blok2_add_clerk.pack_start(this->entry_surname);
 	
-	this->caja_blok2.pack_start(this->label_arl);
-	this->caja_blok2.pack_start(this->entry_arl);
+	this->caja_blok2_add_clerk.pack_start(this->label_arl);
+	this->caja_blok2_add_clerk.pack_start(this->entry_arl);
 
-	this->caja_blok2.pack_start(this->label_area);
-	this->caja_blok2.pack_start(this->entry_contra);
+	this->caja_blok2_add_clerk.pack_start(this->label_area);
+	this->caja_blok2_add_clerk.pack_start(this->entry_contra);
 	
 	// empaquetado de botones
-	this->caja_buttons.pack_start(this->button_save_add_clerk);
-	this->caja_buttons.pack_end(this->button_cancel_add_clerk);
+	this->caja_buttons_add_clerk.pack_start(this->button_save_add_clerk);
+	this->caja_buttons_add_clerk.pack_end(this->button_cancel_add_clerk);
 	
 }
 
@@ -369,6 +374,18 @@ void Gui_raiz::save_add_clerk ()
 	}
 }
 
+void Gui_raiz::layout_rid_clerk ()
+{
+	this->remove ();
+	this->set_rid_clerk();
+	this->add(this->caja_rid_clerk);
+	this->set_position (Gtk::WIN_POS_CENTER);
+	this->set_border_width (20);
+	this->set_title ("Marc Up");
+	this->show_all ();
+}
+
+
 void Gui_raiz::cancel_add_clerk ()
 {
 	this->remove ();
@@ -382,7 +399,7 @@ void Gui_raiz::cancel_add_clerk ()
 
 void Gui_raiz::delete_clerk ()
 {
-	std::string username = this->combo_type_id.get_active_text ()+"_"+this->entry_num_id.get_text ();
+	std::string username = this->combo_type_id_rid_clerk.get_active_text ()+"_"+this->entry_num_id_rid_clerk.get_text ();
 	
 	cppdb::statement sentencia;
 	cppdb::result query;
@@ -402,8 +419,8 @@ void Gui_raiz::delete_clerk ()
 				std::cout << "Aceptar" << std::endl;
 				sentencia = this->session << "DELETE FROM usuario WHERE username=?" << username << cppdb::exec;
 				
-				this->combo_type_id.set_active_text ("");
-				this->entry_num_id.set_text ("");
+				this->combo_type_id_rid_clerk.set_active_text ("");
+				this->entry_num_id_rid_clerk.set_text ("");
 				break;		
 			
 			case (Gtk::RESPONSE_CANCEL):
@@ -422,6 +439,28 @@ void Gui_raiz::delete_clerk ()
 	}
 }
 
+void Gui_raiz::cancel_rid_clerk ()
+{
+	this->remove ();
+	this->set_admin ();
+	this->add(this->caja_admin);
+	this->set_position (Gtk::WIN_POS_CENTER);
+	this->set_border_width (20);
+	this->set_title ("Marc Up");
+	this->show_all ();
+}
+
+void Gui_raiz::layout_report ()
+{
+	this->remove ();
+	this->set_report();
+	this->add(this->caja_report);
+	this->set_position (Gtk::WIN_POS_CENTER);
+	this->set_border_width (20);
+	this->set_title ("Marc Up");
+	this->show_all ();
+}
+
 void Gui_raiz::set_report ()
 {
 	//contenedor principal
@@ -434,7 +473,7 @@ void Gui_raiz::set_report ()
 	this->caja_type_report.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_VERTICAL));		
 	
 	//inicialización del contendor de botones
-	this->caja_buttons.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_HORIZONTAL));
+	this->caja_buttons_report.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_HORIZONTAL));
 	
 	//inicializacion de imagenes
 	this->logo_report.set("images/logo.png");
@@ -449,12 +488,12 @@ void Gui_raiz::set_report ()
 	this->combo_type_report.append ("Individual");
 	this->combo_type_report.set_margin_bottom(25);
 
-	this->label_num_id.set_text("Numero de Identificacion");
-	this->label_num_id.set_margin_bottom(5);
-	this->label_num_id.set_alignment (Gtk::ALIGN_START);
-	this->entry_num_id.set_text("");
-	this->entry_num_id.set_can_focus(false);
-	this->entry_num_id.set_margin_bottom(25);
+	this->label_num_id_report.set_text("Numero de Identificacion");
+	this->label_num_id_report.set_margin_bottom(5);
+	this->label_num_id_report.set_alignment (Gtk::ALIGN_START);
+	this->entry_num_id_report.set_text("");
+	this->entry_num_id_report.set_can_focus(false);
+	this->entry_num_id_report.set_margin_bottom(25);
 		
 	this->button_generate.set_label ("Generar Reporte");
 	this->button_generate.set_border_width(25);
@@ -465,7 +504,7 @@ void Gui_raiz::set_report ()
 	// empaquetado en la caja principal
 	this->caja_report.pack_start(this->caja_encabezado_report);
 	this->caja_report.pack_start(this->caja_type_report);
-	this->caja_report.pack_start(this->caja_buttons);
+	this->caja_report.pack_start(this->caja_buttons_report);
 	
 	//empaquetado del encabezado
 	this->caja_encabezado_report.pack_start(this->logo_report);
@@ -473,22 +512,22 @@ void Gui_raiz::set_report ()
 	//empquetado de datos
 	this->caja_type_report.pack_start(this->label_type_report);
 	this->caja_type_report.pack_start(this->combo_type_report);
-	this->caja_type_report.pack_start(this->label_num_id);
-	this->caja_type_report.pack_start(this->entry_num_id);
+	this->caja_type_report.pack_start(this->label_num_id_report);
+	this->caja_type_report.pack_start(this->entry_num_id_report);
 
 	// empaquetado de botones
-	this->caja_buttons.pack_start(this->button_generate);
-	this->caja_buttons.pack_start(this->button_cancel_report);
+	this->caja_buttons_report.pack_start(this->button_generate);
+	this->caja_buttons_report.pack_start(this->button_cancel_report);
 }
 
 void Gui_raiz::on_combo_clerk()
 {
 	Glib::ustring text = combo_type_report.get_active_text();
 	if(text=="Individual")
-		this->entry_num_id.set_can_focus(true);
+		this->entry_num_id_report.set_can_focus(true);
 		
 		else
-			this->entry_num_id.set_can_focus(false);
+			this->entry_num_id_report.set_can_focus(false);
 }
 
 void Gui_raiz::set_rid_clerk ()
@@ -499,62 +538,73 @@ void Gui_raiz::set_rid_clerk ()
 	//inicialización del contenedor del logo
 	this->caja_encabezado_rid_clerk.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_HORIZONTAL));	
 	
-	this->caja_blok1.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_VERTICAL));
-	this->caja_blok1.set_border_width(25);
-	this->caja_blok2.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_VERTICAL));
-	this->caja_blok2.set_border_width(25);
+	this->caja_blok1_rid_clerk.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_VERTICAL));
+	this->caja_blok1_rid_clerk.set_border_width(25);
+	this->caja_blok2_rid_clerk.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_VERTICAL));
+	this->caja_blok2_rid_clerk.set_border_width(25);
 	
 	//inicialización del contendor de botones
-	this->caja_buttons.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_HORIZONTAL));
+	this->caja_buttons_rid_clerk.set_orientation(Gtk::Orientation (Gtk::ORIENTATION_HORIZONTAL));
 	
 	//inicializacion de imagenes
 	this->logo_rid_clerk.set("images/logo.png");
 	this->logo_rid_clerk.set_margin_bottom(25);
 	
 	//inicialización de los campos usuario label, entry...
-	this->label_type_id.set_text ("Tipo de Identificacion");
-	this->label_type_id.set_margin_bottom(5);
-	this->label_type_id.set_alignment (Gtk::ALIGN_START);
-	this->combo_type_id.append ("");
-	this->combo_type_id.append ("RC");	
-	this->combo_type_id.append ("CC");
-	this->combo_type_id.append ("CE");
-	this->combo_type_id.append ("NUIP");
-	this->combo_type_id.set_margin_bottom(25);
+	this->label_type_id_rid_clerk.set_text ("Tipo de Identificacion");
+	this->label_type_id_rid_clerk.set_margin_bottom(5);
+	this->label_type_id_rid_clerk.set_alignment (Gtk::ALIGN_START);
+	this->combo_type_id_rid_clerk.append ("");
+	this->combo_type_id_rid_clerk.append ("RC");	
+	this->combo_type_id_rid_clerk.append ("CC");
+	this->combo_type_id_rid_clerk.append ("CE");
+	this->combo_type_id_rid_clerk.append ("NUIP");
+	this->combo_type_id_rid_clerk.set_margin_bottom(25);
 	
 	this->button_delete_clerk.set_label ("Eliminar");
 	this->button_delete_clerk.set_border_width(25);
 	
 	//inicialización de los campos usuario label, entry...
-	this->label_num_id.set_text("Numero de Identificacion");
-	this->label_num_id.set_margin_bottom(5);
-	this->label_num_id.set_alignment (Gtk::ALIGN_START);
-	this->entry_num_id.set_text("");
-	this->entry_num_id.set_margin_bottom(25);
+	this->label_num_id_rid_clerk.set_text("Numero de Identificacion");
+	this->label_num_id_rid_clerk.set_margin_bottom(5);
+	this->label_num_id_rid_clerk.set_alignment (Gtk::ALIGN_START);
+	this->entry_num_id_rid_clerk.set_text("");
+	this->entry_num_id_rid_clerk.set_margin_bottom(25);
 
 	this->button_cancel_rid_clerk.set_label ("Cancelar");
 	this->button_cancel_rid_clerk.set_border_width(25);	
 	
 	// empaquetado en la caja principal
 	this->caja_rid_clerk.pack_start(this->caja_encabezado_rid_clerk);
-	this->caja_rid_clerk.pack_start(this->grid_unit);
-	this->caja_rid_clerk.pack_start(this->caja_buttons);
+	this->caja_rid_clerk.pack_start(this->grid_unit_rid_clerk);
+	this->caja_rid_clerk.pack_start(this->caja_buttons_rid_clerk);
 
 	//empaquetado en la caja que une las columnas
-	this->grid_unit.add(this->caja_blok1);
-	this->grid_unit.add(this->caja_blok2);
+	this->grid_unit_rid_clerk.add(this->caja_blok1_rid_clerk);
+	this->grid_unit_rid_clerk.add(this->caja_blok2_rid_clerk);
 
 	//empaquetado del encabezado
 	this->caja_encabezado_rid_clerk.pack_start(this->logo_rid_clerk);
 
 	// empaquetado de datos del empleado
-	this->caja_blok1.pack_start(this->label_type_id);
-	this->caja_blok1.pack_start(this->combo_type_id);
+	this->caja_blok1_rid_clerk.pack_start(this->label_type_id_rid_clerk);
+	this->caja_blok1_rid_clerk.pack_start(this->combo_type_id_rid_clerk);
 
-	this->caja_blok2.pack_start(this->label_num_id);
-	this->caja_blok2.pack_start(this->entry_num_id);
+	this->caja_blok2_rid_clerk.pack_start(this->label_num_id_rid_clerk);
+	this->caja_blok2_rid_clerk.pack_start(this->entry_num_id_rid_clerk);
 
 	// empaquetado de botones
-	this->caja_buttons.pack_start(this->button_delete_clerk);
-	this->caja_buttons.pack_start(this->button_cancel_rid_clerk);
+	this->caja_buttons_rid_clerk.pack_start(this->button_delete_clerk);
+	this->caja_buttons_rid_clerk.pack_start(this->button_cancel_rid_clerk);
+}
+
+void Gui_raiz::cancel_report ()
+{
+	this->remove ();
+	this->set_admin ();
+	this->add(this->caja_admin);
+	this->set_position (Gtk::WIN_POS_CENTER);
+	this->set_border_width (20);
+	this->set_title ("Marc Up");
+	this->show_all ();
 }
