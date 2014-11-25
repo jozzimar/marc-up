@@ -11,17 +11,19 @@ Gui_raiz::Gui_raiz ()
 	this->combo_type_report.signal_changed().connect( sigc::mem_fun(*this,&Gui_raiz::on_combo_clerk) );
 	
 	this->session.open("sqlite3:db=db.sqlite");
+	cppdb::statement sentencia = this->session << "PRAGMA foreign_keys=ON" << cppdb::exec;
+	
 	/*this->set_login();
 	this->add(this->caja_login);*/
 	
 	/*this->set_admin();
 	this->add(this->caja_admin);*/
 	
-	this->set_add_clerk();
-	this->add(this->caja_add_clerk);
+	/*this->set_add_clerk();
+	this->add(this->caja_add_clerk);*/
 
-	/*this->set_rid_clerk();
-	this->add(this->caja_rid_clerk);*/
+	this->set_rid_clerk();
+	this->add(this->caja_rid_clerk);
 
 	/*this->set_report();
 	this->add(this->caja_report);*/
@@ -291,7 +293,6 @@ void Gui_raiz::dialog_save ()
 	std::string eps;
 	std::string arl;
 	std::string cargo;
-	std::string area;
 	
 	switch (result)
 	{
@@ -309,11 +310,19 @@ void Gui_raiz::dialog_save ()
 			eps = this->entry_eps.get_text ();
 			arl = this->entry_arl.get_text ();
 			cargo = this->combo_appointment.get_active_text ();
-			area = "Aguachica";
 			
 			sentencia = this->session << "INSERT INTO usuario (username,password) VALUES(?, ?)" << username  << contrasenia << cppdb::exec;
 			sentencia = this->session << "INSERT INTO basicdata (usuario_id, type_id, number_id, name, surname) VALUES (last_insert_rowid (), ?, ?, ?, ?)" << type_id << number_id << name << surname << cppdb::exec;
-			sentencia = this->session << "INSERT INTO complementarydata (usuario_id, eps, arl, cargo, area) VALUES (last_insert_rowid (), ?, ?, ?, ?)" << eps << arl << cargo << area << cppdb::exec;
+			sentencia = this->session << "INSERT INTO complementarydata (usuario_id, eps, arl, cargo) VALUES (last_insert_rowid (), ?, ?, ?)" << eps << arl << cargo << cppdb::exec;
+			
+			this->combo_type_id.set_active_text ("");
+			this->entry_name.set_text ("");
+			this->entry_eps.set_text ("");
+			this->combo_appointment.set_active_text ("");
+			this->entry_num_id.set_text ("");
+			this->entry_surname.set_text ("");
+			this->entry_arl.set_text ("");
+			this->entry_contra.set_text ("");
 			
 			break;
 			
@@ -400,24 +409,43 @@ void Gui_raiz::on_combo_clerk()
 
 void Gui_raiz::dialog_delete ()
 {
-	Gtk::MessageDialog messagedialog_delete(*this,"¿CONFIRMA QUE DESEA ELIMINAR AL EMPLEADO?", false, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_OK_CANCEL);
-	messagedialog_delete.set_secondary_text ("Si los datos son correctos pulse Aceptar.");
+	std::string username = this->combo_type_id.get_active_text ()+"_"+this->entry_num_id.get_text ();
 	
-	int result = messagedialog_delete.run ();
+	cppdb::statement sentencia;
+	cppdb::result query;
 	
-	switch (result)
+	query = this->session << "SELECT name, surname FROM 'basicdata' INNER JOIN 'usuario' ON usuario.id=basicdata.usuario_id AND usuario.username=?" << username << cppdb::row;
+	
+	if (!query.empty ())
 	{
-		case (Gtk::RESPONSE_OK):
-			std::cout << "Aceptar" << std::endl;
-			break;		
+		std::string nombre = query.get<std::string>("name")+" "+query.get<std::string>("surname");
+		Gtk::MessageDialog messagedialog_delete(*this,"¿CONFIRMA QUE DESEA ELIMINAR AL EMPLEADO?", false, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_OK_CANCEL);
+		messagedialog_delete.set_secondary_text (nombre+"\nSi los datos son correctos pulse Aceptar.");
+
+		int result = messagedialog_delete.run ();		
+		switch (result)
+		{
+			case (Gtk::RESPONSE_OK):
+				std::cout << "Aceptar" << std::endl;
+				sentencia = this->session << "DELETE FROM usuario WHERE username=?" << username << cppdb::exec;
+				
+				this->combo_type_id.set_active_text ("");
+				this->entry_num_id.set_text ("");
+				break;		
 			
-		case (Gtk::RESPONSE_CANCEL):
-			std::cout << "Cancelar" << std::endl;
-			break;
+			case (Gtk::RESPONSE_CANCEL):
+				std::cout << "Cancelar" << std::endl;
+				break;
 			
-		default:
-			std::cout << "Nunca Pasa" << std::endl;
-			break;
+			default:
+				std::cout << "Nunca Pasa" << std::endl;
+				break;
+		}
+	}
+	else
+	{
+		Gtk::MessageDialog messagedialog_delete(*this,"EL EMPLEADO NO EXISTE", false, Gtk::MESSAGE_QUESTION);
+		int result = messagedialog_delete.run ();
 	}
 }
 
