@@ -24,16 +24,11 @@ Gui_raiz::Gui_raiz ()
 	cppdb::statement sentencia = this->session << "PRAGMA foreign_keys=ON" << cppdb::exec;
 	
 	this->set_login();
+	this->set_admin ();
+	this->set_add_clerk();
+	this->set_rid_clerk();
+	this->set_report();
 	this->add(this->caja_login);
-	
-	/*this->set_add_clerk();
-	this->add(this->caja_add_clerk);*/
-
-	/*this->set_rid_clerk();
-	this->add(this->caja_rid_clerk);*/
-
-	/*this->set_report();
-	this->add(this->caja_report);*/
 	
 	this->set_resizable(false);
 	this->set_position (Gtk::WIN_POS_CENTER);
@@ -175,6 +170,7 @@ void Gui_raiz::set_add_clerk()
 	this->label_type_id.set_text ("Tipo de Identificacion");
 	this->label_type_id.set_margin_bottom(5);
 	this->label_type_id.set_alignment (Gtk::ALIGN_START);
+
 	this->combo_type_id.append ("");
 	this->combo_type_id.append ("RC");	
 	this->combo_type_id.append ("CC");
@@ -185,17 +181,20 @@ void Gui_raiz::set_add_clerk()
 	this->label_name.set_text("Nombres");
 	this->label_name.set_margin_bottom(5);
 	this->label_name.set_alignment (Gtk::ALIGN_START);
+
 	this->entry_name.set_text("");
 	this->entry_name.set_margin_bottom(25);
 	
 	this->label_eps.set_text("Eps");
 	this->label_eps.set_margin_bottom(5);
 	this->label_eps.set_alignment (Gtk::ALIGN_START);
+
 	this->entry_eps.set_text("");
 	this->entry_eps.set_margin_bottom(25);
 	
 	this->label_appointment.set_text("Cargo");
 	this->label_appointment.set_alignment (Gtk::ALIGN_START);
+
 	this->combo_appointment.append("");
 	this->combo_appointment.append("Aprendiz SENA");	
 	this->combo_appointment.append("Asistente Técnico");
@@ -210,24 +209,27 @@ void Gui_raiz::set_add_clerk()
 	this->label_num_id.set_text("Numero de Identificacion");
 	this->label_num_id.set_margin_bottom(5);
 	this->label_num_id.set_alignment (Gtk::ALIGN_START);
+	
 	this->entry_num_id.set_text("");
 	this->entry_num_id.set_margin_bottom(25);
 	
 	this->label_surname.set_text("Apellidos");
 	this->label_surname.set_margin_bottom(5);
 	this->label_surname.set_alignment (Gtk::ALIGN_START);
+	
 	this->entry_surname.set_text("");
 	this->entry_surname.set_margin_bottom(25);
 	
 	this->label_arl.set_text("Arl");
 	this->label_arl.set_margin_bottom(5);
 	this->label_arl.set_alignment (Gtk::ALIGN_START);
+	
 	this->entry_arl.set_text("");
 	this->entry_arl.set_margin_bottom(25);
 
 	this->label_area.set_text("Contraseña");
-	//this->label_area.set_margin_bottom(5);
 	this->label_area.set_alignment (Gtk::ALIGN_START);
+	
 	this->entry_contra.set_margin_bottom(25);
 	this->entry_contra.set_visibility (false);
 	this->entry_contra.set_text("");
@@ -252,33 +254,26 @@ void Gui_raiz::set_add_clerk()
 	//empaquetado del bloque 1
 	this->caja_blok1_add_clerk.pack_start(this->label_type_id);
 	this->caja_blok1_add_clerk.pack_start(this->combo_type_id);
-	
 	this->caja_blok1_add_clerk.pack_start(this->label_name);
 	this->caja_blok1_add_clerk.pack_start(this->entry_name);
-	
 	this->caja_blok1_add_clerk.pack_start(this->label_eps);
 	this->caja_blok1_add_clerk.pack_start(this->entry_eps);
-	
 	this->caja_blok1_add_clerk.pack_start(this->label_appointment);
 	this->caja_blok1_add_clerk.pack_start(this->combo_appointment);
 	
 	//empaquetado del bloque 2
 	this->caja_blok2_add_clerk.pack_start(this->label_num_id);
 	this->caja_blok2_add_clerk.pack_start(this->entry_num_id);
-	
 	this->caja_blok2_add_clerk.pack_start(this->label_surname);
 	this->caja_blok2_add_clerk.pack_start(this->entry_surname);
-	
 	this->caja_blok2_add_clerk.pack_start(this->label_arl);
 	this->caja_blok2_add_clerk.pack_start(this->entry_arl);
-
 	this->caja_blok2_add_clerk.pack_start(this->label_area);
 	this->caja_blok2_add_clerk.pack_start(this->entry_contra);
 	
 	// empaquetado de botones
 	this->caja_buttons_add_clerk.pack_start(this->button_save_add_clerk);
-	this->caja_buttons_add_clerk.pack_end(this->button_cancel_add_clerk);
-	
+	this->caja_buttons_add_clerk.pack_end(this->button_cancel_add_clerk);	
 }
 
 void Gui_raiz::layout_login ()
@@ -291,11 +286,7 @@ void Gui_raiz::layout_login ()
 	if (!query.empty ())
 	{
 		this->remove ();
-		this->set_admin ();
 		this->add(this->caja_admin);
-		this->set_position (Gtk::WIN_POS_CENTER);
-		this->set_border_width (20);
-		this->set_title ("Marc Up");
 		this->show_all ();
 	}
 	
@@ -304,11 +295,7 @@ void Gui_raiz::layout_login ()
 void Gui_raiz::layout_add_clerk ()
 {
 	this->remove ();
-	this->set_add_clerk ();
 	this->add(this->caja_add_clerk);
-	this->set_position (Gtk::WIN_POS_CENTER);
-	this->set_border_width (20);
-	this->set_title ("Marc Up");
 	this->show_all ();
 }
 
@@ -377,11 +364,7 @@ void Gui_raiz::save_add_clerk ()
 void Gui_raiz::layout_rid_clerk ()
 {
 	this->remove ();
-	this->set_rid_clerk();
 	this->add(this->caja_rid_clerk);
-	this->set_position (Gtk::WIN_POS_CENTER);
-	this->set_border_width (20);
-	this->set_title ("Marc Up");
 	this->show_all ();
 }
 
@@ -389,11 +372,7 @@ void Gui_raiz::layout_rid_clerk ()
 void Gui_raiz::cancel_add_clerk ()
 {
 	this->remove ();
-	this->set_admin ();
 	this->add(this->caja_admin);
-	this->set_position (Gtk::WIN_POS_CENTER);
-	this->set_border_width (20);
-	this->set_title ("Marc Up");
 	this->show_all ();
 }
 
@@ -442,22 +421,14 @@ void Gui_raiz::delete_clerk ()
 void Gui_raiz::cancel_rid_clerk ()
 {
 	this->remove ();
-	this->set_admin ();
 	this->add(this->caja_admin);
-	this->set_position (Gtk::WIN_POS_CENTER);
-	this->set_border_width (20);
-	this->set_title ("Marc Up");
 	this->show_all ();
 }
 
 void Gui_raiz::layout_report ()
 {
 	this->remove ();
-	this->set_report();
 	this->add(this->caja_report);
-	this->set_position (Gtk::WIN_POS_CENTER);
-	this->set_border_width (20);
-	this->set_title ("Marc Up");
 	this->show_all ();
 }
 
@@ -483,6 +454,7 @@ void Gui_raiz::set_report ()
 	this->label_type_report.set_text ("Tipo de Informe");
 	this->label_type_report.set_margin_bottom(5);
 	this->label_type_report.set_alignment (Gtk::ALIGN_START);
+	
 	this->combo_type_report.append ("");
 	this->combo_type_report.append ("General");	
 	this->combo_type_report.append ("Individual");
@@ -491,6 +463,7 @@ void Gui_raiz::set_report ()
 	this->label_num_id_report.set_text("Numero de Identificacion");
 	this->label_num_id_report.set_margin_bottom(5);
 	this->label_num_id_report.set_alignment (Gtk::ALIGN_START);
+	
 	this->entry_num_id_report.set_text("");
 	this->entry_num_id_report.set_can_focus(false);
 	this->entry_num_id_report.set_margin_bottom(25);
@@ -526,8 +499,8 @@ void Gui_raiz::on_combo_clerk()
 	if(text=="Individual")
 		this->entry_num_id_report.set_can_focus(true);
 		
-		else
-			this->entry_num_id_report.set_can_focus(false);
+	else
+		this->entry_num_id_report.set_can_focus(false);
 }
 
 void Gui_raiz::set_rid_clerk ()
@@ -554,6 +527,7 @@ void Gui_raiz::set_rid_clerk ()
 	this->label_type_id_rid_clerk.set_text ("Tipo de Identificacion");
 	this->label_type_id_rid_clerk.set_margin_bottom(5);
 	this->label_type_id_rid_clerk.set_alignment (Gtk::ALIGN_START);
+	
 	this->combo_type_id_rid_clerk.append ("");
 	this->combo_type_id_rid_clerk.append ("RC");	
 	this->combo_type_id_rid_clerk.append ("CC");
@@ -568,6 +542,7 @@ void Gui_raiz::set_rid_clerk ()
 	this->label_num_id_rid_clerk.set_text("Numero de Identificacion");
 	this->label_num_id_rid_clerk.set_margin_bottom(5);
 	this->label_num_id_rid_clerk.set_alignment (Gtk::ALIGN_START);
+	
 	this->entry_num_id_rid_clerk.set_text("");
 	this->entry_num_id_rid_clerk.set_margin_bottom(25);
 
@@ -589,7 +564,6 @@ void Gui_raiz::set_rid_clerk ()
 	// empaquetado de datos del empleado
 	this->caja_blok1_rid_clerk.pack_start(this->label_type_id_rid_clerk);
 	this->caja_blok1_rid_clerk.pack_start(this->combo_type_id_rid_clerk);
-
 	this->caja_blok2_rid_clerk.pack_start(this->label_num_id_rid_clerk);
 	this->caja_blok2_rid_clerk.pack_start(this->entry_num_id_rid_clerk);
 
@@ -601,10 +575,6 @@ void Gui_raiz::set_rid_clerk ()
 void Gui_raiz::cancel_report ()
 {
 	this->remove ();
-	this->set_admin ();
 	this->add(this->caja_admin);
-	this->set_position (Gtk::WIN_POS_CENTER);
-	this->set_border_width (20);
-	this->set_title ("Marc Up");
 	this->show_all ();
 }
