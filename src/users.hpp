@@ -2,7 +2,6 @@
 #include <string>
 #include <fstream>
 
-
 #ifndef INCLUDE_USERS_HPP
 #define INCLUDE_USERS_HPP
 
