@@ -81,7 +81,6 @@ bool Marcacion::key_enter (GdkEventKey* event)
 		this->entry_id_clerk.set_text("");
  		this->entry_id_clerk.set_visibility (true);
  		
- 		this->label_marker_register.override_color ();
  		this->label_marker_register.set_text("Marcación registrada.");
  		
  		sigc::slot<bool> my_slot = sigc::bind (sigc::mem_fun(*this, &Marcacion::reset_label_marcacion), 0);
