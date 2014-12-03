@@ -1,6 +1,6 @@
 CC = g++ -std=c++11
-CFLAGS = -c `pkg-config gtkmm-3.0 --cflags`
-LDFLAGS = `pkg-config gtkmm-3.0 --libs`
+CFLAGS = -c `pkg-config gtkmm-3.0 --cflags` -lcppdb
+LDFLAGS = `pkg-config gtkmm-3.0 --libs` -lcppdb
 SOURCE = src/
 
 all: marcacion

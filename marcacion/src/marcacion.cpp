@@ -1,8 +1,20 @@
 #include "marcacion.hpp"
 #include <iostream>
+#include <list>
 
 const unsigned int ENTER_1 = 36;
 const unsigned int ENTER_2 = 104;
+
+struct usuario 
+{
+	std::string username;
+	std::string password;
+	std::time_t entrada;
+	std::time_t salida;
+	bool marcacion_en_curso;
+};
+
+std::list<usuario> usuarios;
 
 Marcacion::Marcacion ()
 {
@@ -18,7 +30,20 @@ Marcacion::Marcacion ()
 	this->set_border_width (20);
 	this->set_title ("Marc Up");
 	this->show_all ();
+
+	this->session.open("sqlite3:db=../db.sqlite");
+	cppdb::statement sentencia = this->session << "PRAGMA foreign_keys=ON" << cppdb::exec;
 	
+	cppdb::result query = this->session << "SELECT username, password FROM 'usuario' INNER JOIN 'usuarios_grupos' WHERE 'usuario'.id='usuarios_grupos'.'usuario_id' AND 'usuarios_grupos'.'grupo_id'=2";
+		
+	while (query.next ())
+	{
+		usuario nuevo = usuario ();
+		nuevo.username = query.get<std::string>("username");
+		nuevo.password = query.get<std::string>("password");
+		nuevo.marcacion_en_curso = false;
+		usuarios.push_back (nuevo);
+	}
 }
 
 Marcacion::~Marcacion ()
@@ -67,10 +92,12 @@ bool Marcacion::key_enter (GdkEventKey* event)
 	if((event->hardware_keycode == ENTER_1 or event->hardware_keycode == ENTER_2)and(press==0))
 	{
 		this->label_id_clerk.set_text("Contraseña");
-		this->entry_id_clerk.set_text("");
  		this->entry_id_clerk.set_visibility (false);
- 		this->label_marker_register.set_text("");
  		this->press=1;
+ 		
+ 		this->username = this->entry_id_clerk.get_text ();
+
+		this->entry_id_clerk.set_text("");
 		return true;
 	}
 	
@@ -78,16 +105,39 @@ bool Marcacion::key_enter (GdkEventKey* event)
 	{
 		
 		this->label_id_clerk.set_text("Numero de Identificación");
-		this->entry_id_clerk.set_text("");
  		this->entry_id_clerk.set_visibility (true);
- 		
  		this->label_marker_register.set_text("Marcación registrada.");
  		
- 		sigc::slot<bool> my_slot = sigc::bind (sigc::mem_fun(*this, &Marcacion::reset_label_marcacion), 0);
- 		sigc::connection conn = Glib::signal_timeout ().connect (my_slot, 3000);
- 		
  		this->press=0;
- 		 		
+ 		
+		this->password = this->entry_id_clerk.get_text ();
+			
+		for (std::list<usuario>::iterator it = usuarios.begin (); it != usuarios.end (); ++it)
+		{
+			if(it->username == this->username and it->password == this->password)
+			{	
+				if (!it->marcacion_en_curso)
+		 		{
+ 					it->marcacion_en_curso = true;
+ 			
+ 					std::time (&it->entrada);
+ 					break;
+ 				}
+ 		
+ 				if (it->marcacion_en_curso)
+ 				{
+ 					it->marcacion_en_curso = false; 			
+ 					std::time (&it->salida);
+ 					std::cout << "trabajo " << (it->salida - it->entrada)/60 << " minutos" << std::endl;
+ 					break;
+ 				}
+			}
+		}
+
+		this->entry_id_clerk.set_text("");
+		sigc::slot<bool> my_slot = sigc::bind (sigc::mem_fun(*this, &Marcacion::reset_label_marcacion), 0);
+ 		sigc::connection conn = Glib::signal_timeout ().connect (my_slot, 3000);	 		
+ 		
  		return true;
  	}
 	return false;
