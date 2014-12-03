@@ -80,10 +80,14 @@ bool Marcacion::key_enter (GdkEventKey* event)
 		this->label_id_clerk.set_text("Numero de Identificación");
 		this->entry_id_clerk.set_text("");
  		this->entry_id_clerk.set_visibility (true);
- 		sleep(3);
+ 		
  		this->label_marker_register.set_text("MARCACION REGISTRADA...");
  		
+ 		wait(3);
+ 		
+ 		
  		this->press=0;
+ 		this->label_marker_register.set_text("");
  		 		
  		return true;
  	}
