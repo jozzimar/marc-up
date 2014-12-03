@@ -1,12 +1,7 @@
 #ifndef MARC_UP_MARCACION_HPP
 #define MARC_UP_MARCACION_HPP
 
-#include <gtkmm/entry.h>
-#include <gtkmm/window.h>
-#include <gtkmm/image.h>
-#include <gtkmm/box.h>
-#include <gtkmm/comboboxtext.h>
-#include <gtkmm/label.h>
+#include <gtkmm.h>
 #include <iostream>
 #include <time.h>
 
@@ -20,6 +15,7 @@ private:
 	
   	bool key_enter (GdkEventKey* event);
   	void set_mark_clerk ();
+  	bool reset_label_marcacion (int);
 			
 protected:
 	  
