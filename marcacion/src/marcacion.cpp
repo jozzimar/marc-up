@@ -83,7 +83,7 @@ bool Marcacion::key_enter (GdkEventKey* event)
  		
  		this->label_marker_register.set_text("MARCACION REGISTRADA...");
  		
- 		wait(3);
+ 		sleep(3);
  		
  		
  		this->press=0;
