@@ -34,6 +34,7 @@ public:
 	void cancel_report ();
 	void set_report ();
 	void on_combo_clerk ();
+	void generar_reporte ();
 	
 	void guardar_usuario();
 	void eliminar_usuario();
