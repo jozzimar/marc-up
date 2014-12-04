@@ -4,21 +4,36 @@
 
 const unsigned int ENTER_1 = 36;
 const unsigned int ENTER_2 = 104;
+int press = 0;
+std::string dias[] = {"Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"};
+std::string meses[] = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+cppdb::statement sentencia; 
 
 struct usuario 
 {
+	unsigned int id;
 	std::string username;
 	std::string password;
+};
+
+struct marcacion
+{
+	unsigned int usuario_id;
+	std::string dia;
+	std::string fecha;
+	int horas_ord;
+	int horas_extras;
+	int tiempo;
 	std::time_t entrada;
 	std::time_t salida;
-	bool marcacion_en_curso;
+	bool en_curso;
 };
 
 std::list<usuario> usuarios;
+std::list<marcacion> marcaciones;
 
 Marcacion::Marcacion ()
 {
-	this->press=0;
 	this->entry_id_clerk.add_events (Gdk::KEY_RELEASE_MASK);
   	this->entry_id_clerk.signal_key_release_event().connect (sigc::mem_fun (*this, &Marcacion::key_enter));
   	
@@ -32,23 +47,29 @@ Marcacion::Marcacion ()
 	this->show_all ();
 
 	this->session.open("sqlite3:db=../db.sqlite");
-	cppdb::statement sentencia = this->session << "PRAGMA foreign_keys=ON" << cppdb::exec;
+	sentencia = this->session << "PRAGMA foreign_keys=ON" << cppdb::exec;
 	
-	cppdb::result query = this->session << "SELECT username, password FROM 'usuario' INNER JOIN 'usuarios_grupos' WHERE 'usuario'.id='usuarios_grupos'.'usuario_id' AND 'usuarios_grupos'.'grupo_id'=2";
+	cppdb::result query = this->session << "SELECT id, username, password FROM 'usuario' INNER JOIN 'usuarios_grupos' WHERE 'usuario'.id='usuarios_grupos'.'usuario_id' AND 'usuarios_grupos'.'grupo_id'=2";
 		
 	while (query.next ())
 	{
 		usuario nuevo = usuario ();
+		nuevo.id = query.get<int>("id");
 		nuevo.username = query.get<std::string>("username");
 		nuevo.password = query.get<std::string>("password");
-		nuevo.marcacion_en_curso = false;
 		usuarios.push_back (nuevo);
+		
+		marcacion nueva = marcacion ();
+		nueva.usuario_id = nuevo.id;
+		nueva.en_curso = false;
+		marcaciones.push_back (nueva);
 	}
 }
 
 Marcacion::~Marcacion ()
 {
 }
+
 void Marcacion::set_mark_clerk()
 {
 	
@@ -88,12 +109,13 @@ void Marcacion::set_mark_clerk()
 
 bool Marcacion::key_enter (GdkEventKey* event)
 {
+	std::string tipo = std::string ();
 	
 	if((event->hardware_keycode == ENTER_1 or event->hardware_keycode == ENTER_2)and(press==0))
 	{
 		this->label_id_clerk.set_text("Contraseña");
  		this->entry_id_clerk.set_visibility (false);
- 		this->press=1;
+ 		press=1;
  		
  		this->username = this->entry_id_clerk.get_text ();
 
@@ -101,37 +123,90 @@ bool Marcacion::key_enter (GdkEventKey* event)
 		return true;
 	}
 	
-	if((event->hardware_keycode == ENTER_1 or event->hardware_keycode == ENTER_2)and(this->press==1))
+	if((event->hardware_keycode == ENTER_1 or event->hardware_keycode == ENTER_2)and(press==1))
 	{
 		
 		this->label_id_clerk.set_text("Numero de Identificación");
  		this->entry_id_clerk.set_visibility (true);
- 		this->label_marker_register.set_text("Marcación registrada.");
  		
- 		this->press=0;
+ 		press=0;
  		
 		this->password = this->entry_id_clerk.get_text ();
-			
-		for (std::list<usuario>::iterator it = usuarios.begin (); it != usuarios.end (); ++it)
+		
+		bool encontrado = false;			
+		for (std::list<usuario>::iterator iterador_usuario = usuarios.begin (); iterador_usuario != usuarios.end (); ++iterador_usuario)
 		{
-			if(it->username == this->username and it->password == this->password)
+			if(iterador_usuario->username == this->username and iterador_usuario->password == this->password)
 			{	
-				if (!it->marcacion_en_curso)
-		 		{
- 					it->marcacion_en_curso = true;
- 			
- 					std::time (&it->entrada);
- 					break;
+				encontrado = true;
+
+				for (std::list<marcacion>::iterator iterador_marcacion = marcaciones.begin (); iterador_marcacion != marcaciones.end (); ++iterador_marcacion)
+				{
+					if (iterador_usuario->id == iterador_marcacion->usuario_id)
+					{
+						if (!iterador_marcacion->en_curso)
+		 				{
+		 					tipo = "entrada";
+ 							iterador_marcacion->en_curso = true;
+ 							std::time (&iterador_marcacion->entrada);
+ 							break;
+ 						}
+ 					
+ 						if (iterador_marcacion->en_curso)
+ 						{
+ 							tipo = "salida";
+ 							std::time_t hoy;
+ 							std::tm *hoy_info;
+ 							
+ 							std::time (&hoy);
+ 							hoy_info = std::gmtime (&hoy);
+ 							
+ 							std::stringstream fecha;
+ 							
+ 							fecha << hoy_info->tm_mday << "/" << (hoy_info->tm_mon+1) << "/" << (hoy_info->tm_year + 1900);
+ 							
+ 							iterador_marcacion->en_curso = false;
+ 							std::time (&iterador_marcacion->salida);
+ 							iterador_marcacion->dia = dias[hoy_info->tm_wday];
+ 							iterador_marcacion->fecha = fecha.str ();
+ 							
+ 							iterador_marcacion->tiempo += (iterador_marcacion->salida - iterador_marcacion->entrada)/60;
+ 							if (iterador_marcacion->tiempo <= 8)
+ 							{
+ 								iterador_marcacion->horas_ord = iterador_marcacion->tiempo;
+ 							}
+ 							else
+ 							{
+ 								iterador_marcacion->horas_extras = iterador_marcacion->tiempo-8;
+ 							}
+ 							
+ 							cppdb::result query = this->session << "SELECT * FROM 'marcacion' WHERE 'marcacion'.'usuario_id'=? AND 'marcacion'.'fecha'=?" << iterador_marcacion->usuario_id << iterador_marcacion->fecha << cppdb::row;
+ 							
+ 							if (!query.empty ())
+ 							{
+ 								sentencia = this->session << "UPDATE 'marcacion' SET 'horas_ord'=?, 'horas_extras'=? WHERE 'marcacion'.'usuario_id'=? AND 'marcacion'.'fecha'=?" << iterador_marcacion->horas_ord << iterador_marcacion->horas_extras << iterador_marcacion->usuario_id << iterador_marcacion->fecha << cppdb::exec;
+ 							}
+ 							else
+ 							{
+ 								sentencia = this->session << "INSERT INTO 'marcacion' ('usuario_id', 'dia', 'fecha', 'horas_ord', 'horas_extras') VALUES (?, ?, ?, ?, ?)" << iterador_marcacion->usuario_id << iterador_marcacion->dia << iterador_marcacion->fecha << iterador_marcacion->horas_ord << iterador_marcacion->horas_extras << cppdb::exec;
+ 							}
+ 							
+ 							break;
+ 						}
+ 					}
  				}
- 		
- 				if (it->marcacion_en_curso)
- 				{
- 					it->marcacion_en_curso = false; 			
- 					std::time (&it->salida);
- 					std::cout << "trabajo " << (it->salida - it->entrada)/60 << " minutos" << std::endl;
- 					break;
- 				}
+ 				break;
 			}
+			
+		}
+		
+		if (encontrado)
+		{
+			this->label_marker_register.set_text("Marcación de "+tipo+" registrada.");
+		}
+		else
+		{
+			this->label_marker_register.set_text("Usuario o contraseña invalida.");
 		}
 
 		this->entry_id_clerk.set_text("");

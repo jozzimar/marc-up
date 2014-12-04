@@ -31,8 +31,6 @@ protected:
 	cppdb::session session;
 	std::string username;
 	std::string password;
-	
-	int press;
 };
 
 #endif //MARC-UP_MARCACION_HPP

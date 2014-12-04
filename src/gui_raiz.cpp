@@ -1,6 +1,26 @@
 #include "gui_raiz.hpp"
 #include <iostream>
+#include <fstream>
 
+
+struct usuario 
+{
+	unsigned int id;
+	std::string username;
+	std::string password;
+};
+
+struct marcacion
+{
+	unsigned int usuario_id;
+	std::string dia;
+	std::string fecha;
+	int horas_ord;
+	int horas_extras;
+};
+
+std::list<usuario> usuarios;
+std::list<marcacion> marcaciones;
 
 Gui_raiz::Gui_raiz ()
   
@@ -20,6 +40,8 @@ Gui_raiz::Gui_raiz ()
 	this->button_cancel_report.signal_clicked ().connect (sigc::mem_fun (*this, &Gui_raiz::cancel_report) );
 	this->combo_type_report.signal_changed().connect( sigc::mem_fun(*this,&Gui_raiz::on_combo_clerk) );
 	
+	this->button_generate.signal_clicked ().connect (sigc::mem_fun (*this, &Gui_raiz::generar_reporte) );
+	
 	this->session.open("sqlite3:db=db.sqlite");
 	cppdb::statement sentencia = this->session << "PRAGMA foreign_keys=ON" << cppdb::exec;
 	
@@ -37,6 +59,30 @@ Gui_raiz::Gui_raiz ()
 	this->show_all ();
 	
 	//this->caja_add_clerk.hide();
+	
+	cppdb::result query = this->session << "SELECT id, username, password FROM 'usuario' WHERE 'usuario'.'id'>1";
+		
+	while (query.next ())
+	{
+		usuario nuevo = usuario ();
+		nuevo.id = query.get<int>("id");
+		nuevo.username = query.get<std::string>("username");
+		nuevo.password = query.get<std::string>("password");
+		usuarios.push_back (nuevo);
+	}
+	
+	query = this->session << "SELECT usuario_id, dia, fecha, horas_ord, horas_extras FROM 'marcacion'";
+	
+	while (query.next ())
+	{
+		marcacion nueva = marcacion ();
+		nueva.usuario_id = query.get<unsigned int>("usuario_id");
+		nueva.dia = query.get<std::string>("dia");
+		nueva.fecha = query.get<std::string>("fecha");
+		nueva.horas_ord = query.get<int>("horas_ord");
+		nueva.horas_extras = query.get<int>("horas_extras");
+		marcaciones.push_back (nueva);
+	}
 }
 
 Gui_raiz::~Gui_raiz ()
@@ -144,7 +190,6 @@ void Gui_raiz::set_admin()
 	this->caja_images.pack_start(this->add_clerk);
 	this->caja_images.pack_start(this->rid_clerk);
 	this->caja_images.pack_start(this->report);
-	
 }
 
 void Gui_raiz::set_add_clerk()
@@ -577,4 +622,54 @@ void Gui_raiz::cancel_report ()
 	this->remove ();
 	this->add(this->caja_admin);
 	this->show_all ();
+}
+
+void Gui_raiz::generar_reporte ()
+{
+	int horas_ord = 0;
+	int horas_extras = 0;
+	std::fstream reporte;
+	
+	if(this->combo_type_report.get_active_text () == "General")
+	{
+		for (std::list<marcacion>::iterator iterador_marcacion = marcaciones.begin (); iterador_marcacion != marcaciones.end (); ++iterador_marcacion)
+		{
+			horas_ord += iterador_marcacion->horas_ord;
+			horas_extras += iterador_marcacion->horas_extras;
+		}
+		
+		reporte.open ("reporte general.txt", std::ios::out);
+		reporte << "Informe General" << std::endl;
+		reporte << "Las horas ordinarias trabajadas son: " << horas_ord << std::endl;
+		reporte << "Las horas extras trabajadas son: " << horas_extras << std::endl;
+		reporte.close ();
+		
+	}
+	else
+	{	
+		std::string username = this->entry_num_id_report.get_text ();
+		
+		for (std::list<usuario>::iterator iterador_usuario = usuarios.begin (); iterador_usuario != usuarios.end (); ++iterador_usuario)
+		{
+			if(username == iterador_usuario->username)
+			{
+				for (std::list<marcacion>::iterator iterador_marcacion = marcaciones.begin (); iterador_marcacion != marcaciones.end (); ++iterador_marcacion)
+				{
+					if (iterador_usuario->id == iterador_marcacion->usuario_id)
+					{
+						horas_ord += iterador_marcacion->horas_ord;
+						horas_extras += iterador_marcacion->horas_extras;
+					}
+				}
+				
+				reporte.open ("reporte "+iterador_usuario->username, std::ios::out);
+				reporte << "Informe de "+iterador_usuario->username.substr (3) << std::endl;
+				reporte << "Las horas ordinarias trabajadas son: " << horas_ord << std::endl;
+				reporte << "Las horas extras trabajadas son: " << horas_extras << std::endl;
+				reporte.close ();
+				
+			}
+		}
+	}
+
 }
